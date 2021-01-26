@@ -3,7 +3,7 @@ package guru.springframework.model;
 import javax.persistence.*;
 
 @Entity
-public class UnitOfMesaure {
+public class UnitOfMeasure {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -1,5 +1,7 @@
 package guru.springframework.model;
 
+import guru.springframework.enums.DifficultyEnum;
+
 import javax.persistence.*;
 import java.util.Set;
 
@@ -33,6 +35,18 @@ public class Recipe {
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "recipe") // Cascading Ingredients because we want to delete Ingredient when we delete Recipe
     private Set<Ingredient> ingredients;
+
+    // EnumType.ORDINAL will save  1, 2 ,3 value for DifficultyEnum constants in DB.
+    // EnumType.STRING will save difficultyEnum constants as it as String in DB.
+    @Enumerated(value = EnumType.STRING)
+    DifficultyEnum difficultyEnum;
+
+    //@JoinTable will create new table based on mappings/relationship
+    @ManyToMany
+    @JoinTable(name = "recipe_category",
+        joinColumns = @JoinColumn(name = "recipe_id"),
+        inverseJoinColumns = @JoinColumn(name = "category"))
+    private Set<Category> categories;
 
     public Long getId() {
         return id;
@@ -120,5 +134,22 @@ public class Recipe {
 
     public void setIngredients(Set<Ingredient> ingredients) {
         this.ingredients = ingredients;
+    }
+
+
+    public DifficultyEnum getDifficultyEnum() {
+        return difficultyEnum;
+    }
+
+    public void setDifficultyEnum(DifficultyEnum difficultyEnum) {
+        this.difficultyEnum = difficultyEnum;
+    }
+
+    public Set<Category> getCategories() {
+        return categories;
+    }
+
+    public void setCategories(Set<Category> categories) {
+        this.categories = categories;
     }
 }
